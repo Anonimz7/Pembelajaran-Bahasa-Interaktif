@@ -1327,50 +1327,42 @@
                 console.log("resetExercise: Latihan berhasil direset.");
             }
 
-            function shuffleCards() {
-                console.log("shuffleCards: Mengacak kartu.");
-                
-                // 1. Kumpulkan semua kartu dari placeholder dan dragItemsContainer
-                const allCards = [];
-                document.querySelectorAll('.placeholder-target .card').forEach(card => {
-                    allCards.push(card);
-                });
-                document.querySelectorAll('#dragItemsContainer .card').forEach(card => {
-                    allCards.push(card);
-                });
-                
-                // 2. Kembalikan semua kartu ke dragItemsContainer dan bersihkan placeholder
-                dragItemsContainer.innerHTML = ''; // Kosongkan container utama
-                document.querySelectorAll('.placeholder-target').forEach(placeholder => {
-                    placeholder.innerHTML = ''; // Kosongkan semua placeholder
-                    placeholder.classList.remove('error-highlight', 'show-number', 'active-placeholder'); // Bersihkan juga highlight
-                });
+function shuffleCards() {
+                console.log("shuffleCards: Mengacak kartu di list saja.");
 
-                // 3. Reset status kartu dan tambahkan kembali ke allCards (jika diperlukan, tapi sudah diisi di langkah 1)
-                allCards.forEach(card => {
-                    card.classList.remove('dropped', 'selected-for-tap', 'dragging');
+                // 1. Kumpulkan hanya kartu-kartu yang ada di dragItemsContainer
+                const cardsInDragContainer = Array.from(dragItemsContainer.querySelectorAll('.card'));
+                
+                // 2. Kosongkan dragItemsContainer
+                dragItemsContainer.innerHTML = ''; 
+                
+                // 3. Acak array kartu yang hanya berasal dari container bawah
+                shuffleArray(cardsInDragContainer);
+
+                // 4. Masukkan kembali kartu-kartu yang sudah diacak ke dragItemsContainer
+                cardsInDragContainer.forEach(card => {
+                    // Pastikan kartu tidak memiliki kelas 'dropped' jika masih di container
+                    card.classList.remove('dropped', 'selected-for-tap', 'dragging'); 
                     // Pastikan draggable attribute dikembalikan untuk desktop
                     if (!isMobileDevice) {
                         card.setAttribute('draggable', 'true');
                     }
-                    // Setup kembali event listener untuk mobile (penting jika dihapus sebelumnya, meskipun current logic tidak menghapus)
+                    // Setup kembali event listener untuk mobile
                     if (isMobileDevice) {
                         setupCardMobileTapEvents(card);
                     }
-                });
-
-                // 4. Acak array allCards
-                shuffleArray(allCards);
-
-                // 5. Masukkan kembali kartu-kartu yang sudah diacak ke dragItemsContainer
-                allCards.forEach(card => {
                     dragItemsContainer.appendChild(card);
                 });
 
+                // Penting: Jangan sentuh placeholder atau kartu di dalamnya
+                // Hapus highlight dan feedback yang mungkin muncul
+                document.querySelectorAll('.placeholder-target').forEach(p => {
+                    p.classList.remove('active-placeholder', 'error-highlight', 'show-number');
+                });
                 resetInteractionStates(); // Bersihkan status interaksi yang mungkin aktif
                 feedback.style.display = 'none'; // Sembunyikan feedback
                 
-                console.log("shuffleCards: Kartu selesai diacak dan diurutkan ulang.");
+                console.log("shuffleCards: Kartu di list berhasil diacak. Kartu di placeholder tetap di tempatnya.");
             }
 
             function shuffleArray(array) {
