@@ -70,8 +70,7 @@
             grid-template-columns: 1fr; /* Default ke satu kolom (atas-bawah) */
         }
 
-        /* Kita tetap bisa punya media query untuk kasus lain, tapi untuk
-           memastikan atas-bawah, grid-template-columns harus 1fr */
+        /* Desktop layout (always single column as requested) */
         @media (min-width: 992px) {
             .main-wrapper {
                 grid-template-columns: 1fr; /* Tetap satu kolom di desktop */
@@ -80,7 +79,6 @@
                 margin-top: 1.5rem; /* Beri margin atas saat menumpuk */
             }
         }
-
 
         .container {
             background-color: var(--container-light);
@@ -112,7 +110,7 @@
             font-size: 0.95rem; /* ~15.2px */
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
             word-wrap: break-word;
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Penting untuk menampilkan spasi dan baris baru */
             text-align: left;
             cursor: text;
             background-color: var(--input-light);
@@ -279,10 +277,23 @@
             display: inline-block;
             vertical-align: middle;
             padding: 0.125rem 0; /* ~2px */
-            white-space: pre-wrap;
+            white-space: pre-wrap; /* Penting untuk mempertahankan spasi */
             box-sizing: border-box;
             transition: color 0.3s ease;
         }
+        /* --- Penting untuk baris baru dari <br> --- */
+        .sentence-context span.text-segment.line-break {
+            width: 100%; /* Memaksa elemen ini untuk mengambil seluruh lebar */
+            height: 0; /* Hindari tinggi yang tidak perlu */
+            margin-top: 0.5em; /* Jarak antar baris */
+            margin-bottom: 0.5em; /* Jarak antar baris */
+            padding: 0; /* Hapus padding yang mungkin mengganggu */
+            line-height: 0; /* Hapus line-height yang mungkin mengganggu */
+            flex-shrink: 0; /* Pastikan tidak menyusut */
+        }
+        /* End of line break styling */
+
+
         .placeholder-target {
             display: inline-flex;
             justify-content: center;
@@ -374,12 +385,12 @@
             background-color: #ffeaea;
         }
 
-
-#dragItemsContainer {
+        /* --- DRAG ITEMS CONTAINER (KARTU BAWAH) --- */
+        #dragItemsContainer {
             display: flex;
             flex-wrap: wrap; /* Pastikan kartu tetap membungkus ke baris baru jika terlalu banyak */
-            flex-direction: row; /* <-- UBAH INI: Atur arah tumpukan menjadi baris (horizontal) */
-            justify-content: center; /* <-- UBAH INI: Pusatkan kartu di tengah secara horizontal */
+            flex-direction: row; /* Atur arah tumpukan menjadi baris (horizontal) */
+            justify-content: center; /* Pusatkan kartu di tengah secara horizontal */
             align-items: flex-start; /* Mengatur item dari awal secara vertikal */
             gap: 0.75rem; /* Menjaga jarak antar kartu */
             padding: 1rem;
@@ -389,8 +400,8 @@
             margin-top: 1.25rem;
             border: 1px solid #e0e0e0;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            max-height: none; /* <-- UBAH INI: Hapus batasan tinggi yang sebelumnya ditambahkan */
-            overflow-y: visible; /* <-- UBAH INI: Hapus overflow yang sebelumnya ditambahkan */
+            max-height: none; /* Hapus batasan tinggi yang sebelumnya ditambahkan */
+            overflow-y: visible; /* Hapus overflow yang sebelumnya ditambahkan */
         }
         #dragItemsContainer.drag-over {
             background-color: #e6f7ff;
@@ -401,21 +412,21 @@
             background-color: var(--card-light);
             border: 1px solid #dee2e6;
             border-radius: 8px;
-            padding: 0.75rem 1.25rem;
+            padding: 0.75rem 1.25rem; /* ~12px 20px */
             box-shadow: 0 3px 10px var(--shadow-light);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* ~24px */
             font-weight: 700;
-            color: var(--text-light);
-            cursor: grab;
+            color: var(--text-light); /* Will be overridden by dark mode */
+            cursor: grab; /* Cursor for desktop drag */
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, opacity 0.2s ease-out, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             box-sizing: border-box;
             white-space: nowrap;
-            /* Hapus atau komentari properti lebar yang membatasi */
-            min-width: unset; /* <-- UBAH INI: Hapus min-width */
-            width: auto; /* <-- UBAH INI: Biarkan lebar menyesuaikan konten */
+            /* Hapus properti lebar yang membatasi */
+            min-width: unset; /* Hapus min-width */
+            width: auto; /* Biarkan lebar menyesuaikan konten */
         }
         .card:hover {
             transform: scale(1.05);
@@ -707,7 +718,7 @@
             #dragItemsContainer {
                 padding: 0.8rem;
                 gap: 0.8rem; /* ~11.2px */
-                min-height: 4rem; /* ~56px */
+                min-height: 4rem; /* ~56px; */
             }
             .card {
                 font-size: 1.2rem; /* ~16.8px */
@@ -878,19 +889,22 @@
                 placeholderCounter = 0;
                 resetInteractionStates(); // Reset all selection/active states
 
-                // Clean up unwanted <div>, <p> tags from contenteditable
+                // Clean up unwanted <div>, <p> tags from contenteditable and consolidate <br>
                 rawHtml = rawHtml.replace(/<div\s*>/g, '<div>');
                 rawHtml = rawHtml.replace(/<\/div>/g, '</div>');
                 rawHtml = rawHtml.replace(/<p\s*>/g, '<p>');
                 rawHtml = rawHtml.replace(/<\/p>/g, '</p>');
 
+                // Convert all block-level tags to <br> for consistent processing
                 rawHtml = rawHtml.replace(/<div>/g, '<br>');
                 rawHtml = rawHtml.replace(/<\/div>/g, '');
                 rawHtml = rawHtml.replace(/<p>/g, '<br>');
                 rawHtml = rawHtml.replace(/<\/p>/g, '');
 
+                // Reduce multiple consecutive <br> to a single one
                 rawHtml = rawHtml.replace(/(<br>){2,}/g, '<br>');
 
+                // Trim leading/trailing <br> if any
                 if (rawHtml.startsWith('<br>')) {
                     rawHtml = rawHtml.substring(4);
                 }
@@ -898,7 +912,7 @@
                     rawHtml = rawHtml.substring(0, rawHtml.length - 4);
                 }
 
-                const segments = rawHtml.split(/(<b>.*?<\/b>)/);
+                const segments = rawHtml.split(/(<b>.*?<\/b>|<br>)/); // Split by <b>...</b> or <br>
 
                 segments.forEach(segment => {
                     if (segment.startsWith('<b>') && segment.endsWith('</b>')) {
@@ -958,23 +972,18 @@
                                 correctOrderDetails.push({ type: 'static', value: trailingPunctuation });
                             }
                         }
-                    } else {
-                        let parts = segment.split(/(<br>|\s+)/);
+                    } else if (segment === '<br>') { // Handle <br> explicitly
+                        const span = document.createElement('span');
+                        span.classList.add('text-segment', 'line-break'); // Add line-break class
+                        // No text content or innerHTML = '<br>' needed, CSS handles the break
+                        sentenceContext.appendChild(span);
+                        correctOrderDetails.push({ type: 'static', value: '\n' }); // Store newline for check
+                    } else { // Handle plain text and spaces
+                        // Split by spaces to handle multiple spaces, but keep them
+                        let parts = segment.split(/(\s+)/);
 
                         parts.forEach(part => {
-                            if (part === '<br>') {
-                                const span = document.createElement('span');
-                                span.classList.add('text-segment');
-                                span.innerHTML = '<br>';
-                                sentenceContext.appendChild(span);
-                                correctOrderDetails.push({ type: 'static', value: '\n' });
-                            } else if (part.trim() !== '') {
-                                const span = document.createElement('span');
-                                span.classList.add('text-segment');
-                                span.textContent = part;
-                                sentenceContext.appendChild(span);
-                                correctOrderDetails.push({ type: 'static', value: part });
-                            } else if (part.length > 0) {
+                            if (part.length > 0) {
                                 const span = document.createElement('span');
                                 span.classList.add('text-segment');
                                 span.textContent = part;
@@ -1274,7 +1283,12 @@
 
                     let fullCorrectSentence = '';
                     correctOrderDetails.forEach(detail => {
-                        fullCorrectSentence += detail.value;
+                        // For line breaks, add a visual <br> tag for feedback, otherwise just the value
+                        if (detail.value === '\n') {
+                            fullCorrectSentence += '<br>';
+                        } else {
+                            fullCorrectSentence += detail.value;
+                        }
                     });
                     feedbackMessage += `<p>Kalimat yang seharusnya lengkap adalah: <br><strong>${fullCorrectSentence}</strong></p>`;
 
@@ -1375,7 +1389,8 @@
             radioCharacter.addEventListener('change', processInputText);
             radioWord.addEventListener('change', processInputText);
 
-            inputHtml.innerHTML = `Saya <b>punya</b> kucing.<br><div>Saya <b>suka</b> kopi.</div><p>Ini adalah <b>buku</b>.</p>`;
+            // Initial content for the input editor
+            inputHtml.innerHTML = `Saya <b>punya</b> kucing.<br>Saya <b>suka</b> kopi.<br>Ini adalah <b>buku</b>.`;
             processInputText();
             console.log("DOM content loaded. Initial setup complete.");
         });
