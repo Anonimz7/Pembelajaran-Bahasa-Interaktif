@@ -1072,6 +1072,7 @@
                         }
                     });
                 } else { // Mobile tap-to-place events for placeholder
+                    // Single click for placing a card (if one is selected)
                     placeholder.addEventListener('click', () => {
                         // Case 1: A card is currently selected for tap-to-place
                         if (selectedCardForTap) {
@@ -1090,17 +1091,20 @@
                             resetInteractionStates(); // Clear all highlights/selections
                             feedback.style.display = 'none';
 
-                        } else {
-                            // Case 2: No card is selected, tapping placeholder means return its card to container
-                            if (placeholder.querySelector('.card')) {
-                                const cardToReturn = placeholder.querySelector('.card');
-                                cardToReturn.classList.remove('dropped');
-                                dragItemsContainer.appendChild(cardToReturn);
-                                feedback.style.display = 'none';
-                            }
-                            // If it's an empty placeholder, and no card is selected, it might mean user accidentally tapped, or is preparing to select a card.
-                            // We don't want to activate it unless a card is already selected.
-                            resetInteractionStates(); 
+                        }
+                        // If no card is selected, single tap on an empty or filled placeholder does nothing.
+                        // Filled placeholder will use dblclick to return its card.
+                        // Empty placeholder, no card selected, no action.
+                    });
+
+                    // Double click for returning a card from placeholder to container
+                    placeholder.addEventListener('dblclick', () => {
+                        if (placeholder.querySelector('.card')) {
+                            const cardToReturn = placeholder.querySelector('.card');
+                            cardToReturn.classList.remove('dropped');
+                            dragItemsContainer.appendChild(cardToReturn);
+                            feedback.style.display = 'none';
+                            resetInteractionStates(); // Ensure any active selection is cleared
                         }
                     });
                 }
@@ -1109,7 +1113,7 @@
             // --- Mobile Tap-to-Place Events for Cards ---
             function setupCardMobileTapEvents(card) {
                 card.addEventListener('click', () => {
-                    // Check if this card is currently in a placeholder, not just dragItemsContainer
+                    // Check if this card is currently in a placeholder
                     const isCardInPlaceholder = card.closest('.placeholder-target');
 
                     // If this card is already selected, deselect it
@@ -1120,9 +1124,6 @@
                         resetInteractionStates();
 
                         // Select this card only if it's from dragItemsContainer
-                        // Or if we want to allow selecting cards from placeholders to move them
-                        // For now, let's assume we only select from dragItemsContainer for placement.
-                        // If a card is in a placeholder, it should be returned by tapping its placeholder.
                         if (!isCardInPlaceholder) {
                             selectedCardForTap = card;
                             card.classList.add('selected-for-tap');
@@ -1131,9 +1132,8 @@
                                 p.classList.add('active-placeholder');
                             });
                         }
-                        // If card is already in a placeholder, tapping it does nothing unless explicitly handled (e.g., to move it to another placeholder)
-                        // For simplicity in this version, tapping a card in a placeholder will not select it.
-                        // User must tap the placeholder to return the card to the dragItemsContainer.
+                        // If card is already in a placeholder, tapping it does not select it.
+                        // User must double-click the placeholder to return the card.
                     }
                 });
             }
