@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembelajaran Bahasa Interaktif (Font Awesome & Spacing)</title>
+    <title>Pembelajaran Bahasa Interaktif (Mobile Friendly)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         /* Light Mode (Default) Styles */
@@ -16,6 +16,7 @@
             background-color: #f4f7f6; /* Light background */
             color: #333; /* Dark text */
             transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+            min-height: 100vh; /* Ensure body takes full viewport height */
         }
         .container {
             background-color: #ffffff; /* Light container background */
@@ -64,7 +65,7 @@
         .text-input-controls, .controls {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px; /* Reduced gap for more compactness */
+            gap: 10px;
             margin-bottom: 15px;
             justify-content: center;
         }
@@ -158,20 +159,20 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             z-index: 1000;
             transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-            display: flex; /* Mengatur display flex untuk menyelaraskan ikon dan teks (jika ada) */
-            align-items: center; /* Pusatkan ikon secara vertikal */
-            gap: 5px; /* Jarak antara ikon dan teks (jika ada) */
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         #darkModeToggle:hover {
             background-color: #5a6268;
         }
         #darkModeToggle i {
-            font-size: 1.2em; /* Ukuran ikon yang sedikit lebih besar */
+            font-size: 1.2em;
         }
 
         /* Exercise Display */
         .exercise-display {
-            background-color: #e9ecef; /* Light background */
+            background-color: #e9ecef;
             padding: 25px;
             border-radius: 10px;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.08);
@@ -180,7 +181,7 @@
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
         .exercise-info, .exercise-question {
-            color: #495057; /* Dark text */
+            color: #495057;
             transition: color 0.3s ease;
         }
         .exercise-question {
@@ -191,7 +192,7 @@
             font-weight: 500;
             margin-bottom: 20px;
             text-align: center;
-            color: #34495e; /* Dark text */
+            color: #34495e;
             white-space: normal;
             word-break: break-word;
             min-height: 50px;
@@ -199,16 +200,14 @@
             flex-wrap: wrap;
             justify-content: center;
             align-items: center;
-            /* PENYESUAIAN DI SINI UNTUK JARAK VERTIKAL */
-            line-height: 1.8; /* Meningkatkan line-height untuk jarak antar baris teks */
+            line-height: 1.8;
             gap: 10px 6px; /* row-gap 10px, column-gap 6px */
-            padding: 10px 0; /* Menambah padding vertikal untuk sedikit ruang */
+            padding: 10px 0;
             transition: color 0.3s ease;
         }
         .sentence-context span.text-segment {
             display: inline-block;
             vertical-align: middle;
-            /* margin: 0 6px; */ /* Dihapus, karena gap sudah menangani */
             padding: 2px 0;
             white-space: pre-wrap;
             box-sizing: border-box;
@@ -220,22 +219,27 @@
             align-items: center;
             min-width: 60px;
             min-height: 50px;
-            border: 2px dashed #a0a0a0; /* Light dashed border */
-            background-color: #f0f0f0; /* Light background */
+            border: 2px dashed #a0a0a0;
+            background-color: #f0f0f0;
             border-radius: 5px;
             padding: 5px;
-            /* margin: 0 6px; */ /* Dihapus, karena gap sudah menangani */
             vertical-align: middle;
             font-weight: normal;
-            color: #666; /* Dark text */
+            color: #666;
             opacity: 0.8;
             box-sizing: border-box;
             transition: background-color 0.3s, border-color 0.3s, transform 0.3s, color 0.3s, opacity 0.3s;
             position: relative;
             overflow: hidden;
+            /* Added for clearer visual feedback on active placeholder in tap-to-place */
+            cursor: pointer;
         }
-        .placeholder-target.drag-over {
-            background-color: #cce5ff; /* Light blue on drag-over */
+        .placeholder-target.active-placeholder { /* For tap-to-place selected placeholder */
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+        }
+        .placeholder-target.drag-over { /* Kept for desktop drag */
+            background-color: #cce5ff;
             border-color: #007bff;
         }
         .placeholder-target .card.dropped {
@@ -249,7 +253,6 @@
             height: auto;
             box-sizing: border-box;
             z-index: 1;
-            /* Dropped card specific transitions */
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
@@ -261,8 +264,8 @@
             right: 2px;
             font-size: 0.6em;
             font-weight: bold;
-            color: #6c757d; /* Dark text on light background */
-            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+            color: #6c757d;
+            background-color: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 4px;
             padding: 0 4px;
@@ -281,8 +284,8 @@
 
         /* CSS for Error Highlight */
         .placeholder-target.error-highlight {
-            border: 3px dashed #dc3545; /* Red border */
-            background-color: #fff0f0; /* Light red background */
+            border: 3px dashed #dc3545;
+            background-color: #fff0f0;
             animation: pulse-error 0.5s infinite alternate;
         }
 
@@ -306,10 +309,10 @@
         #dragItemsContainer {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px; /* Jarak horizontal dan vertikal antar kartu */
+            gap: 15px;
             justify-content: center;
             padding: 15px;
-            background-color: #f8f9fa; /* Light background */
+            background-color: #f8f9fa;
             border-radius: 8px;
             min-height: 80px;
             margin-top: 20px;
@@ -322,7 +325,7 @@
         }
 
         .card {
-            background-color: #ffffff; /* Light card background */
+            background-color: #ffffff;
             border: 1px solid #dee2e6;
             border-radius: 8px;
             padding: 10px 18px;
@@ -332,8 +335,8 @@
             align-items: center;
             font-size: 1.5em;
             font-weight: 700;
-            color: #495057; /* Dark text */
-            cursor: grab;
+            color: #495057;
+            cursor: grab; /* Cursor for desktop drag */
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, opacity 0.2s ease-out, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             box-sizing: border-box;
             white-space: nowrap;
@@ -342,8 +345,15 @@
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+        /* Specific for desktop drag: when dragging, make it transparent */
         .card.dragging {
-            opacity: 0;
+            opacity: 0.2; /* Changed from 0 to 0.2 to still show a hint on desktop */
+        }
+        .card.selected-for-tap { /* For tap-to-place selected card */
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+            transform: scale(1.05);
+            cursor: pointer; /* Change cursor for tap-to-place */
         }
 
         .feedback {
@@ -388,11 +398,11 @@
 
         /* --- DARK MODE STYLES --- */
         body.dark-mode {
-            background-color: #2c3e50; /* Dark background */
-            color: #ecf0f1; /* Light text */
+            background-color: #2c3e50;
+            color: #ecf0f1;
         }
         body.dark-mode .container {
-            background-color: #34495e; /* Darker container background */
+            background-color: #34495e;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         body.dark-mode h1 {
@@ -405,7 +415,7 @@
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
         }
         body.dark-mode #inputHtml b {
-            color: #89cff0; /* Lighter blue for bold text */
+            color: #89cff0;
         }
 
         body.dark-mode .text-input-controls button,
@@ -423,13 +433,12 @@
             color: #ecf0f1;
         }
         body.dark-mode .radio-group input[type="radio"] {
-            accent-color: #89cff0; /* Lighter accent color */
+            accent-color: #89cff0;
         }
 
-        /* Specific button colors for dark mode if desired */
         body.dark-mode #processInputBtn { background-color: #007bff; color: white; }
         body.dark-mode #processInputBtn:hover { background-color: #0056b3; }
-        body.dark-mode #resetExerciseBtn { background-color: #e6b300; color: white; } /* Darker yellow */
+        body.dark-mode #resetExerciseBtn { background-color: #e6b300; color: white; }
         body.dark-mode #resetExerciseBtn:hover { background-color: #cc9900; }
         body.dark-mode #checkAnswerBtn { background-color: #28a745; color: white; }
         body.dark-mode #checkAnswerBtn:hover { background-color: #218838; }
@@ -437,7 +446,7 @@
         body.dark-mode #shuffleCardsBtn:hover { background-color: #138496; }
 
         body.dark-mode .exercise-display {
-            background-color: #4a607a; /* Darker exercise background */
+            background-color: #4a607a;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         body.dark-mode .exercise-info, body.dark-mode .exercise-question {
@@ -450,91 +459,158 @@
              color: #ecf0f1;
         }
         body.dark-mode .placeholder-target {
-            border: 2px dashed #7f8c8d; /* Lighter dashed border */
-            background-color: #5e728d; /* Darker placeholder background */
-            color: #bdc3c7; /* Lighter text in placeholder */
-            opacity: 1; /* Make it fully opaque */
+            border: 2px dashed #7f8c8d;
+            background-color: #5e728d;
+            color: #bdc3c7;
+            opacity: 1;
+        }
+        body.dark-mode .placeholder-target.active-placeholder {
+            border-color: #89cff0; /* Lighter blue for dark mode */
+            box-shadow: 0 0 0 3px rgba(137, 207, 240, 0.5);
         }
         body.dark-mode .placeholder-target.drag-over {
-            background-color: #6a829e; /* Darker blue on drag-over */
+            background-color: #6a829e;
             border-color: #007bff;
         }
         body.dark-mode .placeholder-target .card.dropped {
-            background-color: #6a829e; /* Darker dropped card background */
-            border-color: #8bc34a; /* Still green for correct */
-            color: #ecf0f1; /* Light text for dropped card */
+            background-color: #6a829e;
+            border-color: #8bc34a;
+            color: #ecf0f1;
         }
 
         body.dark-mode .placeholder-target::before {
-            color: #bdc3c7; /* Lighter number text */
-            background-color: rgba(74, 96, 122, 0.7); /* Dark semi-transparent background */
+            color: #bdc3c7;
+            background-color: rgba(74, 96, 122, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         body.dark-mode .placeholder-target.error-highlight {
-            border: 3px dashed #dc3545; /* Still red */
-            background-color: #721c24; /* Darker red background for error */
+            border: 3px dashed #dc3545;
+            background-color: #721c24;
         }
         body.dark-mode .placeholder-target.error-highlight.show-number::before {
-            color: #f8d7da; /* Lighter error text */
-            background-color: #721c24; /* Darker error background */
+            color: #f8d7da;
+            background-color: #721c24;
             border-color: #dc3545;
         }
 
         body.dark-mode #dragItemsContainer {
-            background-color: #3f546a; /* Darker container for drag items */
+            background-color: #3f546a;
             border: 1px solid #5e728d;
         }
         body.dark-mode .card {
-            background-color: #5e728d; /* Darker card background */
+            background-color: #5e728d;
             border: 1px solid #7f8c8d;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-            color: #ecf0f1; /* Light text on card */
+            color: #ecf0f1;
         }
         body.dark-mode .card:hover {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
+        body.dark-mode .card.selected-for-tap {
+            border-color: #89cff0; /* Lighter blue for dark mode */
+            box-shadow: 0 0 0 3px rgba(137, 207, 240, 0.5);
+        }
 
         body.dark-mode .feedback.correct {
-            background-color: #198754; /* Darker green */
+            background-color: #198754;
             color: #d4edda;
             border: 1px solid #146c43;
         }
         body.dark-mode .feedback.incorrect {
-            background-color: #dc3545; /* Darker red */
+            background-color: #dc3545;
             color: #f8d7da;
             border: 1px solid #b02a37;
         }
         body.dark-mode .feedback.info {
-             background-color: #0d6efd; /* Darker blue */
+             background-color: #0d6efd;
              color: #cfe2ff;
              border: 1px solid #0a58ca;
         }
 
+        /* --- MOBILE SPECIFIC STYLES --- */
         @media (max-width: 768px) {
+            body {
+                padding: 10px; /* Reduce overall padding */
+            }
             .container {
-                padding: 20px;
+                padding: 15px; /* Reduce container padding */
+                margin-bottom: 20px;
             }
             h1 {
                 font-size: 1.8em;
             }
-            .sentence-context {
-                font-size: 1.4em;
-                line-height: 1.6; /* Menyesuaikan untuk mobile */
+            p {
+                font-size: 0.9em;
             }
-            .card {
-                font-size: 1.2em;
-                padding: 8px 15px;
+            #inputHtml {
+                min-height: 80px;
+                padding: 10px;
+                font-size: 0.85em;
+            }
+            .text-input-controls, .controls {
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            .text-input-controls button, .controls button {
+                padding: 7px 12px;
+                font-size: 0.8em;
+            }
+            .radio-group {
+                flex-direction: column; /* Stack radio buttons vertically */
+                align-items: flex-start;
+                gap: 10px;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 0.95em;
+                width: 100%; /* Make buttons full width */
+                margin-bottom: 5px; /* Add some space between stacked buttons */
+            }
+            #processInputBtn, #shuffleCardsBtn, #resetExerciseBtn, #checkAnswerBtn {
+                margin-bottom: 10px; /* Space out the main action buttons */
+            }
+
+            .exercise-display {
+                padding: 15px;
+            }
+            .exercise-info, .exercise-question {
+                font-size: 0.9em;
+            }
+            .sentence-context {
+                font-size: 1.3em; /* Adjusted for mobile readability */
+                line-height: 1.6; /* Ensure good line spacing */
+                gap: 8px 4px; /* Slightly reduced gap for mobile */
+                padding: 8px 0;
+            }
+            .sentence-context span.text-segment,
+            .placeholder-target {
+                 font-size: 0.9em; /* Adjust font size within segments/placeholders */
             }
             .placeholder-target {
-                min-width: 40px;
-                min-height: 40px;
+                min-width: 45px; /* Smaller min-width for mobile */
+                min-height: 40px; /* Smaller min-height for mobile */
+                padding: 3px; /* Reduced padding */
             }
-             .placeholder-target::before {
-                font-size: 0.6em;
+            .placeholder-target::before {
+                font-size: 0.5em; /* Smaller number */
                 top: 1px;
                 right: 1px;
-                padding: 0 3px;
+                padding: 0 2px;
+            }
+            #dragItemsContainer {
+                padding: 10px;
+                gap: 10px; /* Smaller gap for cards on mobile */
+                min-height: 60px;
+            }
+            .card {
+                font-size: 1.2em; /* Adjusted card font size for mobile */
+                padding: 8px 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+            }
+            .card:hover { /* Disable hover effects for touch devices */
+                transform: none;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
             }
             #darkModeToggle {
                 top: 10px;
@@ -542,25 +618,25 @@
                 padding: 8px 12px;
                 font-size: 0.8em;
             }
-        }
-        @media (max-width: 480px) {
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            button {
-                width: 100%;
-            }
-            .sentence-context {
-                font-size: 1.2em;
-                line-height: 1.4; /* Menyesuaikan untuk mobile yang lebih kecil */
-            }
-            .card {
+            .feedback {
                 font-size: 1em;
-                padding: 6px 12px;
+                padding: 12px;
             }
             .feedback ul {
                 padding-left: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6em;
+            }
+            .sentence-context {
+                font-size: 1.1em; /* Even smaller font for very small screens */
+                line-height: 1.5;
+            }
+            .card {
+                font-size: 1em;
+                padding: 6px 10px;
             }
         }
     </style>
@@ -629,12 +705,16 @@
             const body = document.body;
             const darkModeIcon = darkModeToggle.querySelector('i');
 
-            let draggedItem = null;
+            let draggedItem = null; // For desktop drag-and-drop
+            let selectedCardForTap = null; // For mobile tap-to-place
             let correctOrderDetails = [];
             let initialDragItemsContent = [];
             let placeholderCounter = 0;
 
             const PUNCTUATION_REGEX = /([.,!?;:]+)$/;
+
+            // --- Mobile Device Detection ---
+            const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 0);
 
             // --- Dark Mode Logic ---
             function applyDarkMode(isDark) {
@@ -680,28 +760,27 @@
                 correctOrderDetails = [];
                 initialDragItemsContent = [];
                 placeholderCounter = 0;
+                selectedCardForTap = null; // Reset selected card on new exercise
 
                 document.querySelectorAll('.placeholder-target').forEach(el => {
                     el.classList.remove('error-highlight');
                     el.classList.remove('show-number');
+                    el.classList.remove('active-placeholder'); // Clear active state
                 });
 
                 // NEW: Clean up unwanted <div>, <p> tags from contenteditable
-                rawHtml = rawHtml.replace(/<div\s*>/g, '<div>'); // Remove attributes from div
+                rawHtml = rawHtml.replace(/<div\s*>/g, '<div>');
                 rawHtml = rawHtml.replace(/<\/div>/g, '</div>');
-                rawHtml = rawHtml.replace(/<p\s*>/g, '<p>'); // Remove attributes from p
+                rawHtml = rawHtml.replace(/<p\s*>/g, '<p>');
                 rawHtml = rawHtml.replace(/<\/p>/g, '</p>');
 
-                // Replace specific tags with <br> for consistent line breaks, or normalize spaces
-                rawHtml = rawHtml.replace(/<div>/g, '<br>'); // Replace opening <div> with <br>
-                rawHtml = rawHtml.replace(/<\/div>/g, '');   // Remove closing </div>
-                rawHtml = rawHtml.replace(/<p>/g, '<br>');  // Replace opening <p> with <br>
-                rawHtml = rawHtml.replace(/<\/p>/g, '');    // Remove closing </p>
+                rawHtml = rawHtml.replace(/<div>/g, '<br>');
+                rawHtml = rawHtml.replace(/<\/div>/g, '');
+                rawHtml = rawHtml.replace(/<p>/g, '<br>');
+                rawHtml = rawHtml.replace(/<\/p>/g, '');
 
-                // Normalize multiple <br> tags if they occur together (e.g., from double Enter)
                 rawHtml = rawHtml.replace(/(<br>){2,}/g, '<br>');
 
-                // Trim leading/trailing <br> if any
                 if (rawHtml.startsWith('<br>')) {
                     rawHtml = rawHtml.substring(4);
                 }
@@ -709,8 +788,6 @@
                     rawHtml = rawHtml.substring(0, rawHtml.length - 4);
                 }
 
-
-                // Now process the cleaned HTML
                 const segments = rawHtml.split(/(<b>.*?<\/b>)/);
 
                 segments.forEach(segment => {
@@ -743,7 +820,7 @@
                                         placeholder.classList.add('placeholder-target');
                                         placeholder.dataset.correctValue = char;
                                         placeholder.dataset.placeholderNum = placeholderCounter;
-                                        setupPlaceholderEvents(placeholder);
+                                        setupPlaceholderEvents(placeholder); // Setup desktop drag AND mobile tap
                                         sentenceContext.appendChild(placeholder);
 
                                         correctOrderDetails.push({ type: 'target', value: char });
@@ -755,7 +832,7 @@
                                     placeholder.classList.add('placeholder-target');
                                     placeholder.dataset.correctValue = word;
                                     placeholder.dataset.placeholderNum = placeholderCounter;
-                                    setupPlaceholderEvents(placeholder);
+                                    setupPlaceholderEvents(placeholder); // Setup desktop drag AND mobile tap
                                     sentenceContext.appendChild(placeholder);
 
                                     correctOrderDetails.push({ type: 'target', value: word });
@@ -771,7 +848,7 @@
                                 correctOrderDetails.push({ type: 'static', value: trailingPunctuation });
                             }
                         }
-                    } else { // Regular text or <br>
+                    } else {
                         let parts = segment.split(/(<br>|\s+)/);
 
                         parts.forEach(part => {
@@ -811,14 +888,21 @@
                     const card = document.createElement('div');
                     card.classList.add('card');
                     card.textContent = itemText;
-                    card.setAttribute('draggable', 'true');
-                    setupCardEvents(card);
+
+                    if (!isMobileDevice) { // Enable desktop drag for non-mobile devices
+                        card.setAttribute('draggable', 'true');
+                        setupCardDesktopDragEvents(card);
+                    } else { // Enable tap-to-place for mobile devices
+                        setupCardMobileTapEvents(card);
+                    }
+
                     dragItemsContainer.appendChild(card);
                 });
                 console.log("renderDragItems: Kartu selesai dirender.");
             }
 
-            function setupCardEvents(card) {
+            // --- Desktop Drag-and-Drop Events ---
+            function setupCardDesktopDragEvents(card) {
                 card.addEventListener('dragstart', (e) => {
                     draggedItem = card;
                     if (card.parentNode && card.parentNode.classList.contains('placeholder-target')) {
@@ -828,7 +912,7 @@
                     }
 
                     setTimeout(() => {
-                        card.classList.add('dragging');
+                        card.classList.add('dragging'); // Make it slightly transparent
                     }, 0);
                     e.dataTransfer.setData('text/plain', card.textContent);
                     e.dataTransfer.effectAllowed = 'move';
@@ -845,86 +929,146 @@
             }
 
             function setupPlaceholderEvents(placeholder) {
-                placeholder.addEventListener('dragenter', (e) => {
-                    e.preventDefault();
-                    if (draggedItem && !placeholder.querySelector('.card')) {
-                        placeholder.classList.add('drag-over');
-                    }
-                });
-
-                placeholder.addEventListener('dragleave', () => {
-                    placeholder.classList.remove('drag-over');
-                });
-
-                placeholder.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    if (draggedItem && !placeholder.querySelector('.card')) {
-                         e.dataTransfer.dropEffect = 'move';
-                         placeholder.classList.add('drag-over');
-                    } else {
-                         e.dataTransfer.dropEffect = 'none';
-                    }
-                });
-
-                placeholder.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    placeholder.classList.remove('drag-over');
-
-                    if (draggedItem && !placeholder.querySelector('.card')) {
-                        const droppedCard = draggedItem;
-
-                        if (droppedCard.originalParent) {
-                            droppedCard.originalParent.innerHTML = '';
+                if (!isMobileDevice) { // Desktop drag events
+                    placeholder.addEventListener('dragenter', (e) => {
+                        e.preventDefault();
+                        if (draggedItem && !placeholder.querySelector('.card')) {
+                            placeholder.classList.add('drag-over');
                         }
+                    });
 
-                        droppedCard.classList.add('dropped');
-                        droppedCard.classList.remove('dragging');
+                    placeholder.addEventListener('dragleave', () => {
+                        placeholder.classList.remove('drag-over');
+                    });
 
-                        placeholder.appendChild(droppedCard);
+                    placeholder.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        if (draggedItem && !placeholder.querySelector('.card')) {
+                             e.dataTransfer.dropEffect = 'move';
+                             placeholder.classList.add('drag-over');
+                        } else {
+                             e.dataTransfer.dropEffect = 'none';
+                        }
+                    });
+
+                    placeholder.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        placeholder.classList.remove('drag-over');
+
+                        if (draggedItem && !placeholder.querySelector('.card')) {
+                            const droppedCard = draggedItem;
+
+                            if (droppedCard.originalParent) {
+                                droppedCard.originalParent.innerHTML = '';
+                            }
+
+                            droppedCard.classList.add('dropped');
+                            droppedCard.classList.remove('dragging');
+
+                            placeholder.appendChild(droppedCard);
+                            draggedItem = null;
+                            feedback.style.display = 'none';
+                        }
+                    });
+                } else { // Mobile tap-to-place events for placeholder
+                    placeholder.addEventListener('click', () => {
+                        if (selectedCardForTap) {
+                            if (placeholder.querySelector('.card')) {
+                                // If placeholder already has a card, move it back to container
+                                const existingCard = placeholder.querySelector('.card');
+                                existingCard.classList.remove('dropped');
+                                dragItemsContainer.appendChild(existingCard);
+                            }
+
+                            // Place the selected card into the placeholder
+                            selectedCardForTap.classList.remove('selected-for-tap');
+                            selectedCardForTap.classList.add('dropped');
+                            placeholder.appendChild(selectedCardForTap);
+
+                            // Clear any active placeholder highlights
+                            document.querySelectorAll('.placeholder-target.active-placeholder').forEach(p => p.classList.remove('active-placeholder'));
+
+                            selectedCardForTap = null; // Reset selected card
+                            feedback.style.display = 'none';
+                        } else {
+                            // If no card is selected, allow tapping placeholder to return its card
+                            if (placeholder.querySelector('.card')) {
+                                const cardToReturn = placeholder.querySelector('.card');
+                                cardToReturn.classList.remove('dropped');
+                                dragItemsContainer.appendChild(cardToReturn);
+                                feedback.style.display = 'none';
+                            }
+
+                            // Also manage active placeholder highlight if no card selected
+                            document.querySelectorAll('.placeholder-target.active-placeholder').forEach(p => p.classList.remove('active-placeholder'));
+                            if (!placeholder.querySelector('.card')) { // Only highlight if empty
+                                placeholder.classList.add('active-placeholder');
+                            }
+                        }
+                    });
+                }
+            }
+
+            // --- Mobile Tap-to-Place Events ---
+            function setupCardMobileTapEvents(card) {
+                card.addEventListener('click', () => {
+                    // Clear previous selection
+                    if (selectedCardForTap) {
+                        selectedCardForTap.classList.remove('selected-for-tap');
+                    }
+                    if (card === selectedCardForTap) { // If same card clicked again, deselect
+                        selectedCardForTap = null;
+                    } else { // Select this card
+                        selectedCardForTap = card;
+                        card.classList.add('selected-for-tap');
+                    }
+                    // Clear any active placeholder highlights
+                    document.querySelectorAll('.placeholder-target.active-placeholder').forEach(p => p.classList.remove('active-placeholder'));
+                });
+            }
+
+
+            // These events handle dropping a card back to the main container
+            if (!isMobileDevice) { // Desktop drag events for dragItemsContainer
+                dragItemsContainer.addEventListener('dragenter', (e) => {
+                    e.preventDefault();
+                    if (draggedItem && draggedItem.originalParent) {
+                        dragItemsContainer.classList.add('drag-over');
+                    }
+                });
+
+                dragItemsContainer.addEventListener('dragleave', () => {
+                    dragItemsContainer.classList.remove('drag-over');
+                });
+
+                dragItemsContainer.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (draggedItem && draggedItem.originalParent) {
+                        e.dataTransfer.dropEffect = 'move';
+                        dragItemsContainer.classList.add('drag-over');
+                    } else {
+                        e.dataTransfer.dropEffect = 'none';
+                    }
+                });
+
+                dragItemsContainer.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    dragItemsContainer.classList.remove('drag-over');
+
+                    if (draggedItem && draggedItem.originalParent) {
+                        const returnedCard = draggedItem;
+
+                        returnedCard.originalParent.innerHTML = '';
+
+                        returnedCard.classList.remove('dropped');
+                        returnedCard.classList.remove('dragging');
+
+                        dragItemsContainer.appendChild(returnedCard);
                         draggedItem = null;
                         feedback.style.display = 'none';
                     }
                 });
             }
-
-            dragItemsContainer.addEventListener('dragenter', (e) => {
-                e.preventDefault();
-                if (draggedItem && draggedItem.originalParent) {
-                    dragItemsContainer.classList.add('drag-over');
-                }
-            });
-
-            dragItemsContainer.addEventListener('dragleave', () => {
-                dragItemsContainer.classList.remove('drag-over');
-            });
-
-            dragItemsContainer.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                if (draggedItem && draggedItem.originalParent) {
-                    e.dataTransfer.dropEffect = 'move';
-                    dragItemsContainer.classList.add('drag-over');
-                } else {
-                    e.dataTransfer.dropEffect = 'none';
-                }
-            });
-
-            dragItemsContainer.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dragItemsContainer.classList.remove('drag-over');
-
-                if (draggedItem && draggedItem.originalParent) {
-                    const returnedCard = draggedItem;
-
-                    returnedCard.originalParent.innerHTML = '';
-
-                    returnedCard.classList.remove('dropped');
-                    returnedCard.classList.remove('dragging');
-
-                    dragItemsContainer.appendChild(returnedCard);
-                    draggedItem = null;
-                    feedback.style.display = 'none';
-                }
-            });
 
 
             function checkAnswer() {
@@ -937,8 +1081,12 @@
                 placeholders.forEach(p => {
                     p.classList.remove('error-highlight');
                     p.classList.remove('show-number');
+                    p.classList.remove('active-placeholder'); // Clear active state
                 });
-                console.log("checkAnswer: Highlight dan nomor lama dihapus.");
+                document.querySelectorAll('.card.selected-for-tap').forEach(c => c.classList.remove('selected-for-tap'));
+                selectedCardForTap = null; // Clear selected card
+
+                console.log("checkAnswer: Highlight, nomor lama, dan status pilihan dihapus.");
 
 
                 if (placeholders.length === 0) {
@@ -1012,7 +1160,7 @@
 
             function showFeedback(message, type) {
                 feedback.innerHTML = message;
-                feedback.className = `feedback ${type}`; // This will remove previous classes and apply new ones
+                feedback.className = `feedback ${type}`;
                 feedback.style.display = 'block';
             }
 
@@ -1021,7 +1169,10 @@
                 const droppedCards = Array.from(sentenceContext.querySelectorAll('.placeholder-target .card'));
                 droppedCards.forEach(card => {
                     card.classList.remove('dropped');
-                    card.setAttribute('draggable', 'true');
+                    // Re-enable draggable attribute if not mobile, otherwise rely on tap events
+                    if (!isMobileDevice) {
+                        card.setAttribute('draggable', 'true');
+                    }
                     dragItemsContainer.appendChild(card);
                     card.parentNode.innerHTML = '';
                 });
@@ -1029,8 +1180,12 @@
                 document.querySelectorAll('.placeholder-target').forEach(el => {
                     el.classList.remove('error-highlight');
                     el.classList.remove('show-number');
+                    el.classList.remove('active-placeholder'); // Clear active state
                 });
-                console.log("resetExercise: Highlight dan nomor lama dihapus.");
+                document.querySelectorAll('.card.selected-for-tap').forEach(c => c.classList.remove('selected-for-tap'));
+                selectedCardForTap = null; // Clear selected card
+
+                console.log("resetExercise: Highlight, nomor lama, dan status pilihan dihapus.");
 
                 renderDragItems(initialDragItemsContent);
 
@@ -1045,6 +1200,12 @@
 
                 dragItemsContainer.innerHTML = '';
                 currentCards.forEach(card => dragItemsContainer.appendChild(card));
+
+                // Clear any active selection after shuffling
+                document.querySelectorAll('.card.selected-for-tap').forEach(c => c.classList.remove('selected-for-tap'));
+                selectedCardForTap = null;
+                document.querySelectorAll('.placeholder-target.active-placeholder').forEach(p => p.classList.remove('active-placeholder'));
+
                 console.log("shuffleCards: Kartu selesai diacak.");
             }
 
@@ -1064,7 +1225,6 @@
             radioCharacter.addEventListener('change', processInputText);
             radioWord.addEventListener('change', processInputText);
 
-            // Initial input example with multiple lines using <br>, <div>, and <p>
             inputHtml.innerHTML = `Saya <b>punya</b> kucing.<br><div>Saya <b>suka</b> kopi.</div><p>Ini adalah <b>buku</b>.</p>`;
             processInputText();
             console.log("DOM content loaded. Initial setup complete.");
