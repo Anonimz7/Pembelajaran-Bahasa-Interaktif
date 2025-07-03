@@ -375,13 +375,13 @@
         }
 
 
-        #dragItemsContainer {
+#dragItemsContainer {
             display: flex;
-            flex-wrap: wrap; /* Tetap wrap untuk mobile jika terlalu banyak dan pecah baris */
-            flex-direction: column; /* <-- DIUBAH: Atur arah tumpukan menjadi kolom */
-            align-items: center; /* <-- DIUBAH: Pusatkan kartu di tengah secara horizontal */
-            gap: 0.75rem; /* Mengurangi sedikit jarak antar kartu jika bertumpuk */
-            justify-content: flex-start; /* Mengatur item dari awal secara vertikal */
+            flex-wrap: wrap; /* Pastikan kartu tetap membungkus ke baris baru jika terlalu banyak */
+            flex-direction: row; /* <-- UBAH INI: Atur arah tumpukan menjadi baris (horizontal) */
+            justify-content: center; /* <-- UBAH INI: Pusatkan kartu di tengah secara horizontal */
+            align-items: flex-start; /* Mengatur item dari awal secara vertikal */
+            gap: 0.75rem; /* Menjaga jarak antar kartu */
             padding: 1rem;
             background-color: #f8f9fa;
             border-radius: 8px;
@@ -389,8 +389,8 @@
             margin-top: 1.25rem;
             border: 1px solid #e0e0e0;
             transition: background-color 0.3s ease, border-color 0.3s ease;
-            max-height: 300px; /* Opsional: Batasi tinggi container dan tambahkan scroll jika perlu */
-            overflow-y: auto; /* Opsional: Tambahkan scroll vertikal jika kartu terlalu banyak */
+            max-height: none; /* <-- UBAH INI: Hapus batasan tinggi yang sebelumnya ditambahkan */
+            overflow-y: visible; /* <-- UBAH INI: Hapus overflow yang sebelumnya ditambahkan */
         }
         #dragItemsContainer.drag-over {
             background-color: #e6f7ff;
@@ -401,21 +401,21 @@
             background-color: var(--card-light);
             border: 1px solid #dee2e6;
             border-radius: 8px;
-            padding: 0.75rem 1.25rem; /* ~12px 20px */
+            padding: 0.75rem 1.25rem;
             box-shadow: 0 3px 10px var(--shadow-light);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem; /* ~24px */
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-light); /* Will be overridden by dark mode */
-            cursor: grab; /* Cursor for desktop drag */
+            color: var(--text-light);
+            cursor: grab;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, opacity 0.2s ease-out, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             box-sizing: border-box;
             white-space: nowrap;
-            /* Tambahan untuk lebar kartu agar vertikal */
-            min-width: 8rem; /* Memberi lebar minimum agar tidak terlalu sempit */
-            width: fit-content; /* Memungkinkan lebar menyesuaikan konten */
+            /* Hapus atau komentari properti lebar yang membatasi */
+            min-width: unset; /* <-- UBAH INI: Hapus min-width */
+            width: auto; /* <-- UBAH INI: Biarkan lebar menyesuaikan konten */
         }
         .card:hover {
             transform: scale(1.05);
