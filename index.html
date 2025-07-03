@@ -62,12 +62,25 @@
         }
 
         .main-wrapper {
-            display: grid;
+            display: grid; /* Tetap grid, tapi kita atur kolomnya */
             gap: 1.5rem; /* ~24px gap between sections */
             width: 90%;
-            max-width: 1200px; /* Increased max-width for better desktop layout */
+            max-width: 1200px;
             margin-bottom: 1.5rem;
+            grid-template-columns: 1fr; /* Default ke satu kolom (atas-bawah) */
         }
+
+        /* Kita tetap bisa punya media query untuk kasus lain, tapi untuk
+           memastikan atas-bawah, grid-template-columns harus 1fr */
+        @media (min-width: 992px) {
+            .main-wrapper {
+                grid-template-columns: 1fr; /* Tetap satu kolom di desktop */
+            }
+            .exercise-display {
+                margin-top: 1.5rem; /* Beri margin atas saat menumpuk */
+            }
+        }
+
 
         .container {
             background-color: var(--container-light);
@@ -76,17 +89,6 @@
             box-shadow: 0 6px 20px var(--shadow-light);
             transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        /* Desktop layout (two columns) */
-        @media (min-width: 992px) { /* Adjust breakpoint as needed */
-            .main-wrapper {
-                grid-template-columns: 1fr 1fr; /* Two columns */
-            }
-            .exercise-display {
-                margin-top: 0; /* Remove top margin if it's in a new column */
-            }
-        }
-
 
         h1 {
             color: var(--text-light); /* Will be overridden by dark mode */
@@ -375,16 +377,20 @@
 
         #dragItemsContainer {
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem; /* ~16px for cards */
-            justify-content: center;
+            flex-wrap: wrap; /* Tetap wrap untuk mobile jika terlalu banyak dan pecah baris */
+            flex-direction: column; /* <-- DIUBAH: Atur arah tumpukan menjadi kolom */
+            align-items: center; /* <-- DIUBAH: Pusatkan kartu di tengah secara horizontal */
+            gap: 0.75rem; /* Mengurangi sedikit jarak antar kartu jika bertumpuk */
+            justify-content: flex-start; /* Mengatur item dari awal secara vertikal */
             padding: 1rem;
             background-color: #f8f9fa;
             border-radius: 8px;
-            min-height: 5rem; /* ~80px */
+            min-height: 5rem;
             margin-top: 1.25rem;
             border: 1px solid #e0e0e0;
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            max-height: 300px; /* Opsional: Batasi tinggi container dan tambahkan scroll jika perlu */
+            overflow-y: auto; /* Opsional: Tambahkan scroll vertikal jika kartu terlalu banyak */
         }
         #dragItemsContainer.drag-over {
             background-color: #e6f7ff;
@@ -407,6 +413,9 @@
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, opacity 0.2s ease-out, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             box-sizing: border-box;
             white-space: nowrap;
+            /* Tambahan untuk lebar kartu agar vertikal */
+            min-width: 8rem; /* Memberi lebar minimum agar tidak terlalu sempit */
+            width: fit-content; /* Memungkinkan lebar menyesuaikan konten */
         }
         .card:hover {
             transform: scale(1.05);
@@ -1306,23 +1315,48 @@
 
             function shuffleCards() {
                 console.log("shuffleCards: Mengacak kartu.");
-                // Get all cards from both placeholder targets and dragItemsContainer
-                const allCards = Array.from(sentenceContext.querySelectorAll('.placeholder-target .card')).concat(Array.from(dragItemsContainer.children));
                 
-                // Move all cards back to dragItemsContainer temporarily for shuffling
+                // 1. Kumpulkan semua kartu dari placeholder dan dragItemsContainer
+                const allCards = [];
+                document.querySelectorAll('.placeholder-target .card').forEach(card => {
+                    allCards.push(card);
+                });
+                document.querySelectorAll('#dragItemsContainer .card').forEach(card => {
+                    allCards.push(card);
+                });
+                
+                // 2. Kembalikan semua kartu ke dragItemsContainer dan bersihkan placeholder
+                dragItemsContainer.innerHTML = ''; // Kosongkan container utama
+                document.querySelectorAll('.placeholder-target').forEach(placeholder => {
+                    placeholder.innerHTML = ''; // Kosongkan semua placeholder
+                    placeholder.classList.remove('error-highlight', 'show-number', 'active-placeholder'); // Bersihkan juga highlight
+                });
+
+                // 3. Reset status kartu dan tambahkan kembali ke allCards (jika diperlukan, tapi sudah diisi di langkah 1)
                 allCards.forEach(card => {
                     card.classList.remove('dropped', 'selected-for-tap', 'dragging');
-                    if (card.parentNode && card.parentNode.classList.contains('placeholder-target')) {
-                        card.parentNode.innerHTML = ''; // Clear placeholder
+                    // Pastikan draggable attribute dikembalikan untuk desktop
+                    if (!isMobileDevice) {
+                        card.setAttribute('draggable', 'true');
                     }
+                    // Setup kembali event listener untuk mobile (penting jika dihapus sebelumnya, meskipun current logic tidak menghapus)
+                    if (isMobileDevice) {
+                        setupCardMobileTapEvents(card);
+                    }
+                });
+
+                // 4. Acak array allCards
+                shuffleArray(allCards);
+
+                // 5. Masukkan kembali kartu-kartu yang sudah diacak ke dragItemsContainer
+                allCards.forEach(card => {
                     dragItemsContainer.appendChild(card);
                 });
 
-                shuffleArray(Array.from(dragItemsContainer.children)); // Shuffle only cards currently in dragItemsContainer
-
-                resetInteractionStates(); // Clear any active selection after shuffling
+                resetInteractionStates(); // Bersihkan status interaksi yang mungkin aktif
+                feedback.style.display = 'none'; // Sembunyikan feedback
                 
-                console.log("shuffleCards: Kartu selesai diacak.");
+                console.log("shuffleCards: Kartu selesai diacak dan diurutkan ulang.");
             }
 
             function shuffleArray(array) {
